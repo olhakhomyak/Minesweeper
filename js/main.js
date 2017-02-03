@@ -5,8 +5,8 @@
 var field = {
     rows: 10,
     cols: 10,
-    width: 50,
-    height: 50
+    width: 51,
+    height: 51
 };
 var ctx, bg, mX, mY, clickedX, clickedY, count, none, sign;
 var bombs = [];
@@ -121,10 +121,10 @@ function init() {
     count = new Image();
     none = new Image();
     sign = new Image();
-    bg.src = "img/mr-square.png";
-    count.src = "img/cat.png";
-    none.src = "img/dog.png";
-    sign.src = "img/cross.png";
+    bg.src = "img/plain.jpg";
+    count.src = "img/closeToBomb.png";
+    none.src = "img/empty.png";
+    sign.src = "img/sign.jpg";
 
 
     /**
@@ -275,7 +275,7 @@ function checkAround(i, x, y) {
  * If all fields were opened
  */
 function win() {
-    alert("Congratulations!");
+    alert("Congratulations! You won!");
 
     restart();
 }
@@ -286,7 +286,7 @@ function win() {
  * Open new game
  */
 function lose() {
-    alert("Try again");
+    alert("Bomb! Game over");
 
     restart();
 }
