@@ -145,7 +145,7 @@ function init() {
  * Setup the game field
  */
 function draw() {
-    ctx.clearRect(0, 0, 400, 400);
+    ctx.clearRect(0, 0, 510, 510);
     for (var i = 0; i < field.rows; i++) {
         for (var k = 0; k < field.cols; k++) {
             var x = k * field.width;
@@ -186,8 +186,8 @@ function draw() {
 
     for (i in openedBoxes) {
         if (openedBoxes[i][2] > 0) {
-            ctx.font = "24px arial";
-            ctx.fillText(openedBoxes[i][2], openedBoxes[i][0] * field.width + 10, openedBoxes[i][1] * field.height + 20);
+            ctx.font = "32px arial";
+            ctx.fillText(openedBoxes[i][2], openedBoxes[i][0] * field.width + 30, openedBoxes[i][1] * field.height + 30);
         }
     }
 }
@@ -270,14 +270,22 @@ function checkAround(i, x, y) {
     }
 }
 
+var infoContainer = document.getElementById('infoContainer');
+var message = document.getElementById('message');
 
 /**
  * If all fields were opened
  */
 function win() {
-    alert("Congratulations! You won!");
+    infoContainer.style.display = 'block';
+    message.innerHTML = 'Congratulations! You won!';
+    infoContainer.className += "successMessage";
 
-    restart();
+    setTimeout(function () {
+        infoContainer.style.display = 'none';
+        location.reload(); //ToDo
+        restart();
+    }, 3000);
 }
 
 
@@ -286,9 +294,15 @@ function win() {
  * Open new game
  */
 function lose() {
-    alert("Bomb! Game over");
+    infoContainer.style.display = 'block';
+    message.innerHTML = 'Bomb! Game over';
+    infoContainer.className += "errorMessage";
 
-    restart();
+    setTimeout(function () {
+        infoContainer.style.display = 'none';
+        location.reload(); //ToDo
+        restart();
+    }, 3000);
 }
 
 
