@@ -8,7 +8,7 @@ var field = {
     width: 51,
     height: 51
 };
-var ctx, bg, mX, mY, clickedX, clickedY, count, none, sign;
+var ctx, bg, mX, mY, clickedX, clickedY, count, none, sign, bomb;
 var bombs = [];
 var openedBoxes = [];
 
@@ -33,7 +33,6 @@ window.onclick = function (e) {
         clickedY = Math.floor(mY / field.height);
     }
 
-
     /**
      * If was clicked (X, Y) coordinates of bomb
      */
@@ -41,6 +40,7 @@ window.onclick = function (e) {
     for (var i = 0; i < 10; i++) {
         if (clickedX == bombs[i][0] && clickedY == bombs[i][1]) {
             chosenBomb = true;
+
             lose();
         }
     }
@@ -121,10 +121,12 @@ function init() {
     count = new Image();
     none = new Image();
     sign = new Image();
+    bomb = new Image();
     bg.src = "img/plain.jpg";
     count.src = "img/closeToBomb.png";
     none.src = "img/empty.png";
-    sign.src = "img/sign.jpg";
+    sign.src = "img/sign.png";
+    bomb.src = "img/bomb.png";
 
 
     /**
@@ -146,6 +148,7 @@ function init() {
  */
 function draw() {
     ctx.clearRect(0, 0, 510, 510);
+
     for (var i = 0; i < field.rows; i++) {
         for (var k = 0; k < field.cols; k++) {
             var x = k * field.width;
@@ -190,6 +193,17 @@ function draw() {
             ctx.fillText(openedBoxes[i][2], openedBoxes[i][0] * field.width + 30, openedBoxes[i][1] * field.height + 30);
         }
     }
+
+    var chosenBomb = false;
+    for (var f = 0; f < 10; f++) {
+        if (clickedX == bombs[f][0] && clickedY == bombs[f][1]) {
+
+            console.log(bombs);
+            for (var r = 0; r < bombs.length; r++) {
+                ctx.drawImage(bomb, bombs[0], bombs[1])
+            }
+        }
+    }
 }
 
 
@@ -206,14 +220,13 @@ function nextStep(x, y) {
     ];
 
     var bombsCount = 0;
-    for (var i  in boxesAround) {
+    for (i  in boxesAround) {
         for (var k = 0; k < 10; k++) {
             if (checkAround(k, x + boxesAround[i][0], y + boxesAround[i][1]) == true) {
                 bombsCount++;
             }
         }
     }
-
 
     for (m in rOpenedBoxes) {
         if (rOpenedBoxes[m][0] == x && rOpenedBoxes[m][1] == 1) {
@@ -222,7 +235,6 @@ function nextStep(x, y) {
     }
 
     var clicked = false;
-
     for (p in openedBoxes) {
         if (openedBoxes[p][0] == x && openedBoxes[p][1] == y) {
             clicked = true;
@@ -283,7 +295,7 @@ function win() {
 
     setTimeout(function () {
         infoContainer.style.display = 'none';
-        location.reload(); //ToDo
+        location.reload();
         restart();
     }, 3000);
 }
@@ -298,11 +310,16 @@ function lose() {
     message.innerHTML = 'Bomb! Game over';
     infoContainer.className += "errorMessage";
 
+    for (var i = 0; i < bombs.length; i++) {
+        ctx.drawImage(bomb, bombs[i][0]*field.width+3, bombs[i][1]*field.height);
+    }
+
     setTimeout(function () {
         infoContainer.style.display = 'none';
-        location.reload(); //ToDo
+        location.reload();
         restart();
     }, 3000);
+
 }
 
 

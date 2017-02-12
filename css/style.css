@@ -3,6 +3,10 @@
 }
 
 #canvas {
+    border: 1px solid #dbdbdb;
+}
+
+#canvas, body {
     background-color: #f3f3f4;
 }
 
