@@ -8,13 +8,13 @@ var field = {
     width: 51,
     height: 51
 };
-var ctx, bg, mX, mY, clickedX, clickedY, count, none, sign, bomb;
+var canvas, ctx, bg, mX, mY, clickedX, clickedY, count, none, sign, bomb;
 var bombs = [];
 var openedBoxes = [];
 
 
 window.onload = function () {
-    var canvas = document.getElementById('canvas');
+    canvas = document.getElementById('canvas');
     ctx = canvas.getContext('2d');
 
     init()
@@ -63,7 +63,6 @@ window.onclick = function (e) {
  * Set sign for box with bomb with right click
  */
 var rClickedX, rClickedY;
-var rClick = 0;
 var rOpenedBoxes = [];
 
 window.oncontextmenu = function (e) {
@@ -93,7 +92,6 @@ window.oncontextmenu = function (e) {
      */
     if (inROpenedBoxes[0] == false) {
         if (rOpenedBoxes.length < 10) {
-            rClick++;
             var n = rOpenedBoxes.length;
             rOpenedBoxes[n] = [];
             rOpenedBoxes[n][0] = rClickedX;
@@ -162,7 +160,7 @@ function draw() {
                     }
                 }
             }
-            if (wasOpened[1] == true) {
+            if (wasOpened[1]) {
                 if (openedBoxes[(wasOpened[0])][2] > 0) {
                     ctx.drawImage(count, x, y);
                 } else {
@@ -193,17 +191,6 @@ function draw() {
             ctx.fillText(openedBoxes[i][2], openedBoxes[i][0] * field.width + 30, openedBoxes[i][1] * field.height + 30);
         }
     }
-
-    var chosenBomb = false;
-    for (var f = 0; f < 10; f++) {
-        if (clickedX == bombs[f][0] && clickedY == bombs[f][1]) {
-
-            console.log(bombs);
-            for (var r = 0; r < bombs.length; r++) {
-                ctx.drawImage(bomb, bombs[0], bombs[1])
-            }
-        }
-    }
 }
 
 
@@ -222,7 +209,7 @@ function nextStep(x, y) {
     var bombsCount = 0;
     for (i  in boxesAround) {
         for (var k = 0; k < 10; k++) {
-            if (checkAround(k, x + boxesAround[i][0], y + boxesAround[i][1]) == true) {
+            if (checkAround(k, x + boxesAround[i][0], y + boxesAround[i][1])) {
                 bombsCount++;
             }
         }
